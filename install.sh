@@ -22,7 +22,7 @@ WORKDIR=${WORKDIR:-/home/chronos/user/tmp.crosrec}
 # Where do we look for the config file? We can override this for debugging by
 # specifying "--config URL" on the command line, but curl and wget may handle
 # file URLs differently.
-CONFIGURL="${2:-https://github.com/zZSETHzz/BringChromeHome/blob/master/recovery.conf}"
+CONFIGURL="${2:-https://raw.githubusercontent.com/craigbeat/BringChromeHome/master/recovery.conf}"
 
 # Device to put this stuff on, perhaps the user knows best?
 DEVICE="${DEVICE:-}"
@@ -1106,13 +1106,13 @@ if [ ! -d $WORKDIR/chromium_efi_mount ]
 then
   mkdir $WORKDIR/chromium_efi_mount
 fi
-mount /dev/sda12 $WORKDIR/chromium_efi_mount -t vfat
+mount /dev/mmcblk0p12 $WORKDIR/chromium_efi_mount -t vfat
 cp $WORKDIR/chrome_efi_mount/syslinux/vmlinuz.B $WORKDIR/chromium_efi_mount/syslinux/vmlinuz.B -f
 cp $WORKDIR/chrome_efi_mount/syslinux/vmlinuz.B $WORKDIR/chromium_efi_mount/syslinux/vmlinuz.A -f
 umount $WORKDIR/chrome_efi_mount
 umount $WORKDIR/chromium_efi_mount
 
-dd if=$image_file of=/dev/sda3 bs=512 skip=$rootfs_start count=$rootfs_size
+dd if=$image_file of=/dev/mmcblk0p3 bs=512 skip=$rootfs_start count=$rootfs_size
 
 
 exit 0
